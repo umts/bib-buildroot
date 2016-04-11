@@ -13,5 +13,11 @@ NODM_LICENSE = GPLv2+
 NODM_LICENSE_FILES = COPYING
 NODM_DEPENDENCIES = xlib_libX11 linux-pam
 NODM_AUTORECONF = YES
+NODM_INSTALL_STAGING = YES
+
+define NODM_INSTALL_INIT_SYSV
+	$(INSTALL) -m 0755 -D $(BR2_EXTERNAL)/package/nodm/S99nodm \
+		$(TARGET_DIR)/etc/init.d/S99nodm
+endef
 
 $(eval $(autotools-package))
