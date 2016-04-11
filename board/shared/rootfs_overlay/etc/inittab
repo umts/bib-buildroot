@@ -1,0 +1,32 @@
+# /etc/inittab
+#
+id:3:initdefault:
+
+si0::sysinit:/bin/mount -t proc proc /proc
+si1::sysinit:/bin/mount -o remount,rw /
+si2::sysinit:/bin/mkdir -p /dev/pts
+si3::sysinit:/bin/mkdir -p /dev/shm
+si4::sysinit:/bin/mount -a
+si5::sysinit:/bin/hostname -F /etc/hostname
+si6::sysinit:/etc/init.d/rcS
+
+#sole::respawn:/sbin/getty -L  console 0 vt100 # GENERIC_SERIAL
+
+c1:12345:respawn:/sbin/agetty --autologin bib tty1 linux
+c2:12345:respawn:/sbin/agetty tty2 linux
+c3:12345:respawn:/sbin/agetty tty3 linux
+c4:12345:respawn:/sbin/agetty tty4 linux
+c5:12345:respawn:/sbin/agetty tty5 linux
+c6:12345:respawn:/sbin/agetty tty6 linux
+
+# Stuff to do for the 3-finger salute
+ca::ctrlaltdel:/sbin/reboot
+
+# Stuff to do before rebooting
+shd0:06:wait:/etc/init.d/rcK
+shd1:06:wait:/sbin/swapoff -a
+shd2:06:wait:/bin/umount -a -r
+
+# The usual halt or reboot actions
+hlt0:0:wait:/sbin/halt -dhp
+reb0:6:wait:/sbin/reboot
