@@ -1,0 +1,87 @@
+#!/usr/bin/ruby
+
+require 'cgi'
+require 'json'
+require 'net/http'
+require 'optparse'
+require 'uri'
+
+def escape(value)
+  CGI.escape(value.to_s).gsub('+', '%20')
+end
+
+def escape_array(arr)
+  arr.map{ |e| escape(e)}.join('+')
+end
+
+options = {
+  'base_url' => URI.parse('http://umts.github.io/BusInfoBoard/')
+}
+
+OptionParser.new do |opts|
+  opts.accept(URI) do |uri,|
+    URI.parse(uri)
+  end
+
+  opts.on('-h', '--help', 'Show this help') do
+    puts opts.help
+    exit
+  end
+
+  opts.on('-uURL', '--url=URL', URI, 'Configuration URL') do |u|
+    options.merge! JSON.parse(Net::HTTP.get(u))
+  end
+
+  opts.on('-fFILE', '--file=FILE', 'Configuration File') do |f|
+    options.merge! JSON.parse(File.read(f))
+  end
+
+  opts.on('-bURL', '--base-url=URL', URI, 'Base URL') do |u|
+    options['base_url'] = u
+  end
+
+  opts.on('-sSTOPS', '--stops=STOPS', Array, 'List of stop IDs') do |s|
+    options['stops'] = s
+  end
+
+  opts.on('-rROUTES', '--routes=ROUTES', Array, 'List of route names') do |r|
+    options['routes'] = r
+  end
+
+  opts.on('-xEXTRIPS', '--exclude-trips=EXTRIPS', Array, 'List of headsigns to skip') do |x|
+    options['excluded_trips'] = x
+  end
+
+  opts.on('-o', '--[no-]sort-by-time', TrueClass, 'Sort departures by time') do |o|
+    options['sort'] = 'time' if o
+  end
+
+  opts.on('-iN', '--interval=N', Integer, 'Refresh after N seconds') do |i|
+    options['interval'] = i
+  end
+
+  opts.on('-aANIM', '--start-animation=ANIM', 'Start animation name') do |a|
+    options['start_animation'] = a
+  end
+
+  opts.on('-eANIM', '--end-animation=ANIM', 'End animation name') do |e|
+    options['end_animation'] = e
+  end
+
+  opts.on('-tTITLE', '--title=TITLE', 'Board title') do |t|
+    options['title'] = t
+  end
+end.parse!
+
+url = options.delete('base_url')
+query = options.map do |key, value|
+  case value
+  when Array
+    "#{key}=#{escape_array(value)}"
+  else
+    "#{key}=#{escape(value)}"
+  end
+end.join("&")
+
+url.query = query unless query.empty?
+puts url
