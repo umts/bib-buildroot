@@ -1,0 +1,2 @@
+sleep 1
+BIB_CONFIG=$(ls -1 /media/usb[0-9]/bib_config.json 2>/dev/null | head -1)
