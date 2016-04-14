@@ -14,10 +14,6 @@ si6::sysinit:/etc/init.d/rcS
 
 c1:12345:respawn:/sbin/agetty --autologin bib tty1 linux
 c2:12345:respawn:/sbin/agetty tty2 linux
-c3:12345:respawn:/sbin/agetty tty3 linux
-c4:12345:respawn:/sbin/agetty tty4 linux
-c5:12345:respawn:/sbin/agetty tty5 linux
-c6:12345:respawn:/sbin/agetty tty6 linux
 
 # Stuff to do for the 3-finger salute
 ca::ctrlaltdel:/sbin/reboot
