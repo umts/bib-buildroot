@@ -3,5 +3,5 @@
 xset -dpms
 xset s off
 
-/bin/midori -p -e 'Fullscreen' http://example.com &
-exec matchbox-window-manager -use_titlebar no -use_cursor no
+/bin/midori -p -e 'Fullscreen' $(bib_url) &
+exec matchbox-window-manager -use_titlebar no
