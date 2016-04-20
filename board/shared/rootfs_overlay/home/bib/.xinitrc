@@ -7,7 +7,11 @@ xset s off
 if [ "x$BIB_CONFIG" == "x" ] ; then
   /usr/bin/midori -p -e 'Fullscreen' $(bib_url) &
 else
-  /usr/bin/midori -p -e 'Fullscreen' $(bib_url --file="$BIB_CONFIG") &
+  if [ -f $BIB_CONFIG] ; then
+    /usr/bin/midori -p -e 'Fullscreen' $(bib_url --file="$BIB_CONFIG") &
+  else
+    /usr/bin/midori -p -e 'Fullscreen' $(bib_url) &
+  fi
 fi
 
 exec matchbox-window-manager -use_titlebar no
