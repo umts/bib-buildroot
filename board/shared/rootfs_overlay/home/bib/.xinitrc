@@ -7,7 +7,7 @@ xset s off
 if [ "x$BIB_CONFIG" == "x" ] ; then
   /usr/bin/midori -p -e 'Fullscreen' $(bib_url) &
 else
-  if [ -f $BIB_CONFIG] ; then
+  if [ -f $BIB_CONFIG ] ; then
     /usr/bin/midori -p -e 'Fullscreen' $(bib_url --file="$BIB_CONFIG") &
   else
     /usr/bin/midori -p -e 'Fullscreen' $(bib_url) &
