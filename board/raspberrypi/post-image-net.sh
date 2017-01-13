@@ -8,8 +8,9 @@ mkdir -p "${BINARIES_DIR}/kernel-marked"
 ${HOST_DIR}/usr/bin/mkknlimg "${BINARIES_DIR}/zImage" \
 	"${BINARIES_DIR}/kernel-marked/zImage"
 
-# Put our config.txt in place
+# Put our config.txt and cmdline.txt in place
 cp "${BR2_EXTERNAL_BUS_INFO_BOARD_PATH}/board/raspberrypi/net-config.txt" "${BINARIES_DIR}/config.txt"
+cp "${BR2_EXTERNAL_BUS_INFO_BOARD_PATH}/board/raspberrypi/net-cmdline.txt" "${BINARIES_DIR}/cmdline.txt"
 
 rm -rf "${GENIMAGE_TMP}"
 
