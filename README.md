@@ -8,17 +8,21 @@ to a non-root user to do so.
 
 The following platforms are supported:
 
-*  i386 live CD
-*  Raspberry Pi
+*  i686 live CD
+*  Raspberry Pi 1
+*  Raspberry Pi 1 - Netboot
 
 Building
 --------
 
 Building is done with [buildroot][br]. Download the latest stable
-release and from within the buildroot tree, load the configuration:
+release (most recently tested with version 2016.11) and, from within the
+buildroot tree, load the configuration:
 
 ```bash
 $ BR2_EXTERNAL=/path/to/this/repo make rpibib_defconfig #Rasperry Pi
+$ #  or
+$ BR2_EXTERNAL=/path/to/this/repo make rpibib_net_defconfig #Pi Netboot
 $ #  or
 $ BR2_EXTERNAL=/path/to/this/repo make lcdbib_defconfig #Live CD
 ```
@@ -35,11 +39,22 @@ Writing the image
 
 The finished images are in the `output/images/` directory. For the live
 CD, it will be named `rootfs.iso`; burn it using the tool of your choice (also
-works in Virtualbox). For the Raspberry Pi, it will be named `sdcard.img`;
+works in VirtualBox). For the Raspberry Pi, it will be named `sdcard.img`;
 write it to a microSD card with `dd` (replace X with the correct letter):
 
 ```bash
-$ sudo dd if=output/images/sdcard.img of=/dev/sdX
+$ sudo dd if=output/images/sdcard.img of=/dev/sdX conv=fsync
+```
+
+Netboot files
+-------------
+
+The netboot image expects to find the files `zImage` and `rootfs.cpio.uboot` in
+the root of a TFTP server.
+
+```bash
+$ cp output/images/kernel-marked/zImage /tftp-root/
+$ cp output/images/rootfs.cpio.uboot /tftp-root/
 ```
 
 Per-device configuration
@@ -47,7 +62,7 @@ Per-device configuration
 
 You can configure the particulars of the BusInfoBoard display with a
 `bib_config.json` file. For the live CD, place it in the root of any removable
-USB device. For the Raspberry Pi, place it in the FAT32 partition of the SD
+USB device. For the Raspberry Pi, place it in the FAT partition of the SD
 card. Configuration details are documented in the BusInfoBoard README.
 
 [bib]: https://github.com/umts/BusInfoBoard/
