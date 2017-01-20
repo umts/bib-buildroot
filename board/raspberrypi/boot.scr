@@ -5,7 +5,12 @@ fdt addr ${fdt_addr}
 # of cmdline.txt but also some other stuff like the framebuffer size
 fdt get value bootargs /chosen bootargs
 
-fatload mmc 0:1 ${kernel_addr_r} zImage
-fatload mmc 0:1 ${ramdisk_addr_r} rootfs.cpio.uboot
+env set autoload no
+dhcp
+dns example.com serverip
+env set serverip ${serverip}
+
+tftp ${kernel_addr_r} zImage
+tftp ${ramdisk_addr_r} rootfs.cpio.uboot
 
 bootz ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr}
