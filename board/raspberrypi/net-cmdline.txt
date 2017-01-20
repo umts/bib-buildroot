@@ -1,0 +1,1 @@
+root=/dev/root console=tty1 console=ttyAMA0,115200
