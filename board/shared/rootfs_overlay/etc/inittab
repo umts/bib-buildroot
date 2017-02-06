@@ -13,7 +13,6 @@ si6::sysinit:/etc/init.d/rcS
 #sole::respawn:/sbin/getty -L  console 0 vt100 # GENERIC_SERIAL
 
 c1:12345:respawn:/sbin/agetty --autologin bib tty1 linux
-c2:12345:respawn:/sbin/agetty tty2 linux
 
 # Stuff to do for the 3-finger salute
 ca::ctrlaltdel:/sbin/reboot
