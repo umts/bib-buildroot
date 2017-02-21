@@ -1,0 +1,25 @@
+#!/bin/sh
+rescue_shell() {
+  echo "Something went wrong. Dropping to a shell."
+  exec /bin/sh
+}
+
+continue_booting() {
+  /bin/mount --move /dev /mnt/dev
+  /bin/umount /proc
+  exec 0</dev/console
+  exec 1>/dev/console
+  exec 2>/dev/console
+  exec /sbin/switch_root /mnt /sbin/init || rescue_shell
+}
+
+/bin/mount -t devtmpfs devtmpfs /dev || rescue_shell
+/bin/mount -t proc none /proc
+
+for dev in sr0 sr1 sda1 sdb1 hda1 hdb1
+do
+  /bin/mount /dev/$dev /mnt
+  /bin/test -x /mnt/sbin/init && continue_booting
+done
+
+rescue_shell

@@ -1,0 +1,14 @@
+if BR2_TARGET_ROOTFS_ISO9660_HYBRID
+
+config BUS_INFO_BOARD_ROOTFS_ISO9660_HYBRID_INITRD_SHIM
+	bool "Build a mini initrd to help find the rootfs"
+	select BR2_TARGET_ROOTFS_ISO9660_INITRD
+	help
+	  Enabling this option will build a small initrd in order to
+	  find the actual root filesystem. This is necessary for a
+	  "hybrid" image to work regardless of the device its written
+	  to. Alternatively, you can select BR2_TARGET_ROOTFS_ISO9660_INITRD
+	  directly which will make the entire root filesystem your
+	  initrd.
+
+endif
