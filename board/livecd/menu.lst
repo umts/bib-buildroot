@@ -1,9 +1,0 @@
-default		0
-timeout		1
-
-# Used when no splashimage is used
-color 		cyan/blue white/blue
-
-title		Buildroot ISO9660 image
-kernel		__KERNEL_PATH__ root=/dev/sr0
-initrd		__INITRD_PATH__
